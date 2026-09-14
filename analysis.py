@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from config import spectra_style, plot_style
-from data import linear, linear_filenames, onedimensional, onedimensional_filenames
+from data import linear, linear_filenames, onedimensional, onedimensional_filenames, molecule, atom
 import numpy as np
 import os
 from scipy.special import eval_legendre
@@ -115,6 +115,77 @@ def onedimensional_frequencyrange_comparison(dataframe, folder):
     
     return
 
+def plot_molecule_spectra(dataframe, folder):
+    
+    for size in ['5mm', '10mm', '15mm', '20mm']:
+        
+        plt.style.use(spectra_style)
+        plt.figure()
+
+        plt.plot(dataframe[size]['frequency'], dataframe[size]['amplitude'], color='black')
+
+        plt.xlabel("Frequency [kHz]")
+        plt.ylabel("Amplitude [a.u.]")
+
+        save_path = f"./Plots/full_spectra/{folder}/spectra/{size}_spectra.png"
+        plt.xlim(0, 3001)
+        plt.tight_layout()
+        plt.savefig(save_path)
+        plt.close()
+        
+    plt.figure()
+    for size, color in zip(['5mm', '10mm', '15mm', '20mm'], ['k', 'r', 'b', 'g']):
+        plt.plot(dataframe[size]['frequency'], dataframe[size]['amplitude'], color=color, label=size)
+        
+    plt.xlim(2200, 2550)
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Amplitude [a.u.]')
+    plt.ylim(top=0.25, bottom=-0.015)
+    
+    save_path = f"./Plots/full_spectra/{folder}/spectra/all_spectra_comparisons.png"
+    plt.tight_layout()
+    plt.legend()
+    plt.savefig(save_path)
+    plt.close()
+    
+    return
+
+def plot_atom_spectra(dataframe, folder):
+    
+    for size in ['no', '5mm', '10mm', '15mm']:
+        
+        plt.style.use(spectra_style)
+        plt.figure()
+
+        plt.plot(dataframe[size]['frequency'], dataframe[size]['amplitude'], color='black')
+
+        plt.xlabel("Frequency [kHz]")
+        plt.ylabel("Amplitude [a.u.]")
+
+        save_path = f"./Plots/full_spectra/{folder}/spectra/{size}_spectra.png"
+        plt.xlim(0, 3001)
+        plt.tight_layout()
+        plt.savefig(save_path)
+        plt.close()
+        
+    plt.figure()
+    for size, color in zip(['no', '5mm', '10mm', '15mm'], ['k', 'r', 'b', 'g']):
+        plt.plot(dataframe[size]['frequency'], dataframe[size]['amplitude'], color=color, label=size)
+        
+    plt.xlim(1500, 2500)
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Amplitude [a.u.]')
+    plt.ylim(top=1, bottom=-0.015)
+    
+    save_path = f"./Plots/full_spectra/{folder}/spectra/all_spectra_comparisons.png"
+    plt.tight_layout()
+    plt.legend(loc='upper left')
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.savefig(save_path)
+    plt.close()
+
+    return
+
 if __name__ == "__main__":
     
     for n in ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven']:
@@ -127,3 +198,5 @@ if __name__ == "__main__":
 
     onedimensional_frequencyrange_comparison(dataframe=onedimensional, folder='onedimensional')
     linear_spectra_comparisons(dataframe=linear, folder='linear')
+    plot_molecule_spectra(dataframe=molecule, folder='molecule')
+    plot_atom_spectra(dataframe=atom, folder='atom')
