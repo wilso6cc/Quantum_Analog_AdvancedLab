@@ -75,6 +75,7 @@ def all_legendre_plots(folder='polar_legendre'):
         
         ax.set_theta_zero_location('N')
         ax.set_theta_direction(-1)
+        ax.tick_params(axis='y', labelleft=False)
         
         # ax.set_title(f'Legendre Polynomial {i}', va='bottom')
         
